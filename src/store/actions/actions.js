@@ -28,7 +28,7 @@ export function saveName(name) {
 }
 export function changeTitleColumn(title, id) {
   return {
-    type: "ADD_NAME",
+    type: "CHANGE_TITLE_COLUMN",
     title,
     id
   };

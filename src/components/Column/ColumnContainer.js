@@ -14,8 +14,6 @@ class ColumnContainer extends React.Component {
     const value = this.textInput.textContent;
 
     changeTitleColumn(value, id);
-    console.log(value);
-    console.log(id);
   };
 
   setRef = element => {
@@ -31,7 +29,6 @@ class ColumnContainer extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <Column
         isOpen={this.state.isOpen}
