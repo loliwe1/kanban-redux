@@ -1,5 +1,6 @@
 import { ADD_NAME } from "../actions/actions";
 import { ADD_CARD } from "../actions/actions";
+import { ADD_COMMENT } from "../actions/actions";
 
 if (!localStorage.getItem("columns")) {
   localStorage.setItem(
@@ -15,11 +16,8 @@ if (!localStorage.getItem("columns")) {
 
 const initialState = {
   name: localStorage.getItem("name") || "",
-  comments: JSON.parse(localStorage.getItem("comments")) || [],
   nextCardId: JSON.parse(localStorage.getItem("nextCardId")) || 1,
-  nextCommentId: JSON.parse(localStorage.getItem("nextCommentId")) || 1,
-
-  popupCard: ""
+  nextCommentId: JSON.parse(localStorage.getItem("nextCommentId")) || 1
 };
 
 const name = (state = initialState, action) => {
@@ -33,6 +31,11 @@ const name = (state = initialState, action) => {
       return {
         ...state,
         nextCardId: state.nextCardId + 1
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        nextCommentId: state.nextCommentId + 1
       };
     default:
       return state;

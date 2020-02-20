@@ -1,7 +1,7 @@
 import React from "react";
 import "./Column.css";
-import Card from "../Card/Card";
 import NewCardFormContainer from "../NewCardForm/NewCardFormContainer";
+import Card from "../Card/Card";
 
 const Column = props => (
   <div className="Column">
@@ -19,7 +19,6 @@ const Column = props => (
         const commentsLength = props.comments.filter(
           comment => comment.cardId === card.id
         ).length;
-
         return (
           <Card
             title={card.title}
@@ -35,7 +34,7 @@ const Column = props => (
       <NewCardFormContainer
         closeForm={props.closeForm}
         createNewCard={props.createNewCard}
-        columnId={props.id}
+        columnId={props.columnId}
       />
     )}
   </div>

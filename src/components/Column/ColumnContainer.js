@@ -3,10 +3,17 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Column from "./Column";
 import { changeTitleColumn } from "../../store/actions/actions";
+import { openPopupCard } from "../../store/actions/actions";
 
 class ColumnContainer extends React.Component {
   state = {
     isOpen: false
+  };
+
+  openPopupCard = id => {
+    const { openPopupCard } = this.props;
+
+    openPopupCard(id);
   };
 
   changeTitleColumn = () => {
@@ -31,6 +38,11 @@ class ColumnContainer extends React.Component {
   render() {
     return (
       <Column
+        openPopupCard={this.openPopupCard}
+        comments={this.props.comments}
+        cards={this.props.cards}
+        renderCards={this.renderCards}
+        columnId={this.props.id}
         isOpen={this.state.isOpen}
         openForm={this.openForm}
         closeForm={this.closeForm}
@@ -41,15 +53,15 @@ class ColumnContainer extends React.Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
-  columns: state.columns
+  comments: state.comments
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      changeTitleColumn
+      changeTitleColumn,
+      openPopupCard
     },
     dispatch
   );

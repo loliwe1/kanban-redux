@@ -1,5 +1,7 @@
 import { ADD_CARD } from "../actions/actions";
 import { REMOVE_CARD } from "../actions/actions";
+import { CHANGE_CARD_DESCRIPTION } from "../actions/actions";
+import { CHANGE_CARD_TITLE } from "../actions/actions";
 
 const initialState = [];
 
@@ -17,11 +19,21 @@ function cards(state = initialState, action) {
         }
       ];
     case REMOVE_CARD:
-      return [
-        ...state.cards.filter(card => {
-          return card.id !== action.id;
-        })
-      ];
+      return [...state.filter(card => card.id !== action.cardId)];
+    case CHANGE_CARD_DESCRIPTION:
+      return state.map(card => {
+        if (card.id === action.cardId) {
+          card.description = action.description;
+        }
+        return card;
+      });
+    case CHANGE_CARD_TITLE:
+      return state.map(card => {
+        if (card.id === action.cardId) {
+          card.title = action.title;
+        }
+        return card;
+      });
     default:
       return state;
   }
