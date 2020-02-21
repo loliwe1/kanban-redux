@@ -8,14 +8,14 @@ import { saveComment } from '../../store/actions/actions';
 class CommentContainer extends Component {
   state = {
     redactComment: false,
-    commentText: ""
+    commentText: "",
   };
 
   redact = () => {
     if (this.props.name !== this.props.author) return;
     this.setState({
       redactComment: true,
-      commentText: this.props.textComment
+      commentText: this.props.textComment,
     });
   };
 
