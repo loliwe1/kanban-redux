@@ -31,7 +31,7 @@ const PopupCard = (props) => {
             </h1>
           ) : (
               <h1 className="TitleHeader">{props.title}</h1>
-            )}
+          )}
           <small>
             In column: <span>{props.column}</span>
           </small>

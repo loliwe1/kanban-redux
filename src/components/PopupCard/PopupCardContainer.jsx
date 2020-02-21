@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PopupCard from './PopupCard';
 import { bindActionCreators } from 'redux';
-import { closePopupCard } from '../../store/actions/actions';
-import { removeCard } from '../../store/actions/actions';
-import { changeCardDescription } from '../../store/actions/actions';
-import { changeCardTitle } from '../../store/actions/actions';
-import { addComment } from '../../store/actions/actions';
+import PopupCard from './PopupCard';
+import {
+  closePopupCard,
+  removeCard,
+  changeCardDescription,
+  changeCardTitle,
+  addComment,
+} from '../../store/actions/actions';
+
 
 class PopupCardContainer extends Component {
   state = {
     commentFormFocus: false
   };
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.closePopupOnEsc);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.closePopupOnEsc);
+  }
+
+  closePopupOnEsc = (element) => {
+    if (element.key === 'Escape') {
+      this.closePopupCard();
+    }
+  };
+
 
   closePopupCard = () => {
     const { closePopupCard } = this.props;
@@ -28,11 +46,11 @@ class PopupCardContainer extends Component {
     changeCardTitle(cardId, value);
   };
 
-  setRef = element => {
+  setRef = (element) => {
     this.textInput = element;
   };
 
-  setRefDesc = element => {
+  setRefDesc = (element) => {
     this.textInputDesc = element;
   };
 
@@ -42,7 +60,7 @@ class PopupCardContainer extends Component {
     changeCardDescription(cardId, value);
   };
 
-  setRefComment = element => {
+  setRefComment = (element) => {
     this.commentInput = element;
   };
 
@@ -52,7 +70,7 @@ class PopupCardContainer extends Component {
     const { addComment, nextCommentId, name } = this.props;
 
     addComment(value, nextCommentId, name, this.props.cardId);
-    this.commentInput.value = "";
+    this.commentInput.value = '';
     this.setState({ commentFormFocus: false });
   };
 
@@ -62,20 +80,6 @@ class PopupCardContainer extends Component {
 
     this.closePopupCard();
     removeCard(cardId);
-  };
-
-  componentDidMount() {
-    window.addEventListener("keydown", this.closePopupOnEsc);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("keydown", this.closePopupOnEsc);
-  }
-
-  closePopupOnEsc = e => {
-    if (e.key === "Escape") {
-      this.closePopupCard();
-    }
   };
 
   render() {
@@ -101,22 +105,22 @@ class PopupCardContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   name: state.app.name,
   nextCommentId: state.app.nextCommentId,
   comments: state.comments
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       closePopupCard,
       removeCard,
       changeCardDescription,
       changeCardTitle,
-      addComment
+      addComment,
     },
-    dispatch
+    dispatch,
   );
 
 export default connect(mapStateToProps, mapDispatchToProps)(PopupCardContainer);
