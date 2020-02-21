@@ -1,23 +1,21 @@
-import { ADD_NAME } from "../actions/actions";
-import { ADD_CARD } from "../actions/actions";
-import { ADD_COMMENT } from "../actions/actions";
+import { ADD_NAME, ADD_CARD, ADD_COMMENT } from '../actions/actions';
 
-if (!localStorage.getItem("columns")) {
+if (!localStorage.getItem('columns')) {
   localStorage.setItem(
-    "columns",
+    'columns',
     JSON.stringify([
-      { id: 1, title: "TODO" },
-      { id: 2, title: "In Progress" },
-      { id: 3, title: "Testing" },
-      { id: 4, title: "Done" }
-    ])
+      { id: 1, title: 'TODO' },
+      { id: 2, title: 'In Progress' },
+      { id: 3, title: 'Testing' },
+      { id: 4, title: 'Done' },
+    ]),
   );
 }
 
 const initialState = {
-  name: localStorage.getItem("name") || "",
-  nextCardId: JSON.parse(localStorage.getItem("nextCardId")) || 1,
-  nextCommentId: JSON.parse(localStorage.getItem("nextCommentId")) || 1
+  name: localStorage.getItem('name') || '',
+  nextCardId: JSON.parse(localStorage.getItem('nextCardId')) || 1,
+  nextCommentId: JSON.parse(localStorage.getItem('nextCommentId')) || 1,
 };
 
 const name = (state = initialState, action) => {
@@ -25,17 +23,17 @@ const name = (state = initialState, action) => {
     case ADD_NAME:
       return {
         ...state,
-        name: action.name
+        name: action.name,
       };
     case ADD_CARD:
       return {
         ...state,
-        nextCardId: state.nextCardId + 1
+        nextCardId: state.nextCardId + 1,
       };
     case ADD_COMMENT:
       return {
         ...state,
-        nextCommentId: state.nextCommentId + 1
+        nextCommentId: state.nextCommentId + 1,
       };
     default:
       return state;

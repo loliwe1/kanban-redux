@@ -1,15 +1,15 @@
-import { combineReducers } from "redux";
-import cards from "./cards";
-import app from "./app";
-import columns from "./columns";
-import popupCard from "./popupCard";
-import comments from "./comments";
+import { combineReducers } from 'redux';
+import cards from './cards';
+import app from './app';
+import columns from './columns';
+import popupCard from './popupCard';
+import comments from './comments';
 
 const todoApp = combineReducers({
   cards,
   app,
   columns,
   popupCard,
-  comments
+  comments,
 });
 export default todoApp;

@@ -1,9 +1,9 @@
-import React from "react";
-import "./Column.css";
-import NewCardFormContainer from "../NewCardForm/NewCardFormContainer";
-import Card from "../Card/Card";
+import React from 'react';
+import './Column.css';
+import NewCardFormContainer from '../NewCardForm/NewCardFormContainer';
+import Card from '../Card/Card';
 
-const Column = props => (
+const Column = (props) => (
   <div className="Column">
     <div
       ref={props.setRef}

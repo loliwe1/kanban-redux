@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import PopupName from "./PopupName";
-import { saveName } from "../../store/actions/actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PopupName from './PopupName';
+import { saveName } from '../../store/actions/actions';
 
 class PopupNameContainer extends Component {
   setRef = element => {

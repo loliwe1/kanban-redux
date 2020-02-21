@@ -1,12 +1,13 @@
-import React from "react";
-import "./PopupCard.css";
-import Comment from "../Comment/Comment";
+import React from 'react';
+import './PopupCard.css';
+import CommentContainer from '../Comment/CommentContainer';
 
-const PopupCard = props => {
-  const commentClass = ["WriteCommentWrap"];
+const PopupCard = (props) => {
+  const commentClass = ['WriteCommentWrap'];
+  const { commentFormFocus } = props;
 
-  if (props.commentFormFocus || props.commentText) {
-    commentClass.push("WriteCommentWrapFocus");
+  if (commentFormFocus) {
+    commentClass.push('WriteCommentWrapFocus');
   }
 
   return (
@@ -29,8 +30,8 @@ const PopupCard = props => {
               {props.title}
             </h1>
           ) : (
-            <h1 className="TitleHeader">{props.title}</h1>
-          )}
+              <h1 className="TitleHeader">{props.title}</h1>
+            )}
           <small>
             In column: <span>{props.column}</span>
           </small>
@@ -39,7 +40,7 @@ const PopupCard = props => {
           </p>
         </div>
         {props.creator !== props.name ? (
-          <div className="Description">{props.description || ""}</div>
+          <div className="Description">{props.description || ''}</div>
         ) : (
           <div
             contentEditable={true}
@@ -48,29 +49,28 @@ const PopupCard = props => {
             onBlur={props.changeCardDescription}
             ref={props.setRefDesc}
           >
-            {props.description || "Enter a description for the card!"}
+              {props.description || 'Enter a description for the card!'}
           </div>
         )}
         <div>Comments:</div>
-        <div className={commentClass.join(" ")}>
+        <div className={commentClass.join(' ')}>
           <textarea
             onFocus={props.focusCommentForm}
-            onBlur={props.blurCommentForm}
             className="WriteComment"
             placeholder="write a comment..."
             ref={props.setRefComment}
-          ></textarea>
-          <button onClick={props.addComment} className="PostCommentButton">
+          />
+          <button onClick={props.addComment} type="button" className="PostCommentButton">
             Save
           </button>
         </div>
-        {props.comments &&
-          props.comments.map((comment, i) => {
+        {props.comments
+          && props.comments.map((comment, i) => {
             return (
-              <Comment
+              <CommentContainer
                 author={comment.author}
-                key={i}
-                commentText={comment.commentText}
+                key={comment.id}
+                textComment={comment.textComment}
                 name={props.name}
                 saveChangesComment={props.saveChangesComment}
                 id={comment.id}
@@ -78,7 +78,7 @@ const PopupCard = props => {
               />
             );
           })}
-        <button onClick={props.removeCard} className="RemoveCard">
+        <button onClick={props.removeCard} type="button" className="RemoveCard">
           Remove Card
         </button>
       </div>

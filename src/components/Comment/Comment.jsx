@@ -2,36 +2,33 @@ import React from "react";
 import "./Comment.css";
 
 const Comment = props => {
-  if (props.changeComment) {
+  if (props.redactComment) {
     return (
       <div>
         <textarea
           className="CommentChangeTextArea"
           autoFocus
           defaultValue={props.commentText}
-          onChange={props.changeComment}
+          ref={props.setRef}
         />
-        <button
-          onClick={props.saveChangesComment}
-          className="CommentChangeButton"
-        >
+        <button onClick={props.saveComment} className="CommentChangeButton">
           Save
         </button>
       </div>
     );
   } else {
     return (
-      <div>
+      <div className="Comment">
         <p>
           <span>{props.author}&#160;:</span>
         </p>
-        <p>{props.commentText}</p>
+        <p>{props.textComment}</p>
         <hr />
-        <p onClick={props.redactComment} className="CommentRedact">
+        <p onClick={props.redact} className="CommentRedact">
           Redact
         </p>
-        <p onClick={props.deleteComment} className="CommentRemove">
-          Remove!
+        <p onClick={props.removeComment} className="CommentRemove">
+          Remove
         </p>
       </div>
     );

@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PopupCard from "./PopupCard";
-import { bindActionCreators } from "redux";
-import { closePopupCard } from "../../store/actions/actions";
-import { removeCard } from "../../store/actions/actions";
-import { changeCardDescription } from "../../store/actions/actions";
-import { changeCardTitle } from "../../store/actions/actions";
-import { addComment } from "../../store/actions/actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PopupCard from './PopupCard';
+import { bindActionCreators } from 'redux';
+import { closePopupCard } from '../../store/actions/actions';
+import { removeCard } from '../../store/actions/actions';
+import { changeCardDescription } from '../../store/actions/actions';
+import { changeCardTitle } from '../../store/actions/actions';
+import { addComment } from '../../store/actions/actions';
 
 class PopupCardContainer extends Component {
   state = {
@@ -20,10 +20,6 @@ class PopupCardContainer extends Component {
 
   focusCommentForm = () => {
     this.setState({ commentFormFocus: true });
-  };
-
-  blurCommentForm = () => {
-    this.setState({ commentFormFocus: false });
   };
 
   changeCardTitle = () => {
@@ -57,6 +53,7 @@ class PopupCardContainer extends Component {
 
     addComment(value, nextCommentId, name, this.props.cardId);
     this.commentInput.value = "";
+    this.setState({ commentFormFocus: false });
   };
 
   removeCard = () => {
@@ -82,7 +79,6 @@ class PopupCardContainer extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <PopupCard
         {...this.props}
@@ -93,17 +89,20 @@ class PopupCardContainer extends Component {
         closePopupCard={this.closePopupCard}
         addComment={this.addComment}
         removeCard={this.removeCard}
-        blurCommentForm={this.blurCommentForm}
         setCommentInputRef={this.setCommentInputRef}
         setRefDesc={this.setRefDesc}
         setRef={this.setRef}
         setRefComment={this.setRefComment}
+        comments={this.props.comments.filter(
+          comment => comment.cardId === this.props.cardId
+        )}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
+  name: state.app.name,
   nextCommentId: state.app.nextCommentId,
   comments: state.comments
 });

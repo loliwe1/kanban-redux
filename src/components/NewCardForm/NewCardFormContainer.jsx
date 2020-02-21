@@ -1,8 +1,8 @@
-import React from "react";
-import NewCardForm from "../NewCardForm/NewCardForm";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { addCard } from "../../store/actions/actions";
+import React from 'react';
+import NewCardForm from './NewCardForm';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addCard } from '../../store/actions/actions';
 
 class NewCardFormContainer extends React.Component {
   setRef = element => {
