@@ -81,14 +81,7 @@ class PopupCardContainer extends Component {
   };
 
   removeCard = () => {
-    const {
-      cards,
-      cardId,
-      name,
-      removeCard,
-    } = this.props;
-    const currentCard = cards.find((card) => card.id === cardId);
-    if (currentCard.creator !== name) return;
+    const { cardId, removeCard } = this.props;
 
     this.closePopupCard();
     removeCard(cardId);
@@ -104,13 +97,13 @@ class PopupCardContainer extends Component {
     } = this.props;
     const { commentFormFocus } = this.state;
     const currentCard = cards.find((card) => card.id === cardId);
-
     const currentColumnTitle = columns.find(
       (column) => column.id === currentCard.columnId,
     ).title;
 
     return (
       <PopupCard
+        isOwner={name === currentCard.creator}
         card={currentCard}
         name={name}
         columnTitle={currentColumnTitle}

@@ -18,6 +18,7 @@ const PopupCard = ({
   addComment,
   comments,
   removeCard,
+  isOwner,
 }) => {
   const { title, creator, description } = card;
   const commentClass = ['WriteCommentWrap'];
@@ -94,9 +95,11 @@ const PopupCard = ({
               />
             );
           })}
-        <button onClick={removeCard} type="button" className="RemoveCard">
-          Remove Card
-        </button>
+        {isOwner && (
+          <button onClick={removeCard} type="button" className="RemoveCard">
+            Remove Card
+          </button>
+        )}
       </div>
     </div>
   );
@@ -121,6 +124,7 @@ PopupCard.propTypes = {
   addComment: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
   removeCard: PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 
 export default PopupCard;
