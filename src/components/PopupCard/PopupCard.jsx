@@ -1,10 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './PopupCard.css';
 import CommentContainer from '../Comment/CommentContainer';
 
-const PopupCard = (props) => {
+const PopupCard = ({
+  commentFormFocus,
+  closePopupCard,
+  name,
+  setRef,
+  changeCardTitle,
+  card,
+  columnTitle,
+  changeCardDescription,
+  setRefDesc,
+  focusCommentForm,
+  setRefComment,
+  addComment,
+  comments,
+  removeCard,
+}) => {
+  const { title, creator, description } = card;
   const commentClass = ['WriteCommentWrap'];
-  const { commentFormFocus } = props;
 
   if (commentFormFocus) {
     commentClass.push('WriteCommentWrapFocus');
@@ -14,76 +30,97 @@ const PopupCard = (props) => {
     <div className="PopupCard">
       <div className="PopupCardWrap">
         <div className="PopupCardClose">
-          <p className="PopupCardCloseLink" onClick={props.closePopupCard}>
+          <p className="PopupCardCloseLink" onClick={closePopupCard}>
             Close
           </p>
         </div>
         <div className="PopupCardTitle">
-          {props.creator === props.name ? (
+          {creator === name ? (
             <h1
-              ref={props.setRef}
+              ref={setRef}
               className="TitleHeader"
-              contentEditable={true}
-              suppressContentEditableWarning={true}
-              onBlur={props.changeCardTitle}
+              contentEditable
+              suppressContentEditableWarning
+              onBlur={changeCardTitle}
             >
-              {props.title}
+              {title}
             </h1>
           ) : (
-              <h1 className="TitleHeader">{props.title}</h1>
+            <h1 className="TitleHeader">{title}</h1>
           )}
           <small>
-            In column: <span>{props.column}</span>
+            In column:
+            <span>{columnTitle}</span>
           </small>
           <p>
-            Created a card: <span>{props.creator}</span>
+            Created a card:
+            <span>{creator}</span>
           </p>
         </div>
-        {props.creator !== props.name ? (
-          <div className="Description">{props.description || ''}</div>
+        {creator !== name ? (
+          <div className="Description">{description || ''}</div>
         ) : (
           <div
-            contentEditable={true}
-            suppressContentEditableWarning={true}
+            contentEditable
+            suppressContentEditableWarning
             className="Description"
-            onBlur={props.changeCardDescription}
-            ref={props.setRefDesc}
+            onBlur={changeCardDescription}
+            ref={setRefDesc}
           >
-              {props.description || 'Enter a description for the card!'}
+            {description || 'Enter a description for the card!'}
           </div>
         )}
         <div>Comments:</div>
         <div className={commentClass.join(' ')}>
           <textarea
-            onFocus={props.focusCommentForm}
+            onFocus={focusCommentForm}
             className="WriteComment"
             placeholder="write a comment..."
-            ref={props.setRefComment}
+            ref={setRefComment}
           />
-          <button onClick={props.addComment} type="button" className="PostCommentButton">
+          <button onClick={addComment} type="button" className="PostCommentButton">
             Save
           </button>
         </div>
-        {props.comments
-          && props.comments.map((comment, i) => {
+        {comments
+          && comments.map((comment) => {
             return (
               <CommentContainer
                 author={comment.author}
                 key={comment.id}
                 textComment={comment.textComment}
-                name={props.name}
-                saveChangesComment={props.saveChangesComment}
+                name={name}
                 id={comment.id}
-                deleteComment={props.deleteComment}
               />
             );
           })}
-        <button onClick={props.removeCard} type="button" className="RemoveCard">
+        <button onClick={removeCard} type="button" className="RemoveCard">
           Remove Card
         </button>
       </div>
     </div>
   );
+};
+
+PopupCard.defaultProps = {
+  card: {},
+};
+
+PopupCard.propTypes = {
+  card: PropTypes.objectOf(PropTypes.any),
+  commentFormFocus: PropTypes.bool.isRequired,
+  closePopupCard: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  setRef: PropTypes.func.isRequired,
+  changeCardTitle: PropTypes.func.isRequired,
+  columnTitle: PropTypes.string.isRequired,
+  changeCardDescription: PropTypes.func.isRequired,
+  setRefDesc: PropTypes.func.isRequired,
+  focusCommentForm: PropTypes.func.isRequired,
+  setRefComment: PropTypes.func.isRequired,
+  addComment: PropTypes.func.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+  removeCard: PropTypes.func.isRequired,
 };
 
 export default PopupCard;

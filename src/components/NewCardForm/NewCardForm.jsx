@@ -1,21 +1,27 @@
-import React from "react";
-import "./NewCardForm.css";
+import React from 'react';
+import PropTypes from 'prop-types'
+import './NewCardForm.css';
 
-const NewCardForm = props => (
+const NewCardForm = ({ setRef, addCard, closeForm }) => (
   <div className="NewCardForm">
     <input
-      autoFocus
       className="NewCardFormTextarea"
       placeholder="Enter card title"
-      ref={props.setRef}
+      ref={setRef}
     />
-    <button onClick={props.addCard} className="AddCardButton">
+    <button onClick={addCard} type="button" className="AddCardButton">
       Add Card
     </button>
-    <button onClick={props.closeForm} className="CloseCreateButton">
+    <button onClick={closeForm} type="button" className="CloseCreateButton">
       Close
     </button>
   </div>
 );
+
+NewCardForm.propTypes = {
+  setRef: PropTypes.func.isRequired,
+  addCard: PropTypes.func.isRequired,
+  closeForm: PropTypes.func.isRequired,
+};
 
 export default NewCardForm;

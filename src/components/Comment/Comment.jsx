@@ -1,38 +1,58 @@
-import React from "react";
-import "./Comment.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './Comment.css';
 
-const Comment = props => {
-  if (props.redactComment) {
+const Comment = ({
+  redactComment,
+  saveComment,
+  setRef,
+  author,
+  textComment,
+  redact,
+  removeComment,
+}) => {
+  if (redactComment) {
     return (
-      <div>
+      <div style={{ marginTop: '10px' }}>
         <textarea
           className="CommentChangeTextArea"
-          autoFocus
-          defaultValue={props.commentText}
-          ref={props.setRef}
+          defaultValue={textComment}
+          ref={setRef}
         />
-        <button onClick={props.saveComment} className="CommentChangeButton">
+        <button onClick={saveComment} className="CommentChangeButton" type="button">
           Save
         </button>
       </div>
     );
-  } else {
-    return (
-      <div className="Comment">
-        <p>
-          <span>{props.author}&#160;:</span>
-        </p>
-        <p>{props.textComment}</p>
-        <hr />
-        <p onClick={props.redact} className="CommentRedact">
-          Redact
-        </p>
-        <p onClick={props.removeComment} className="CommentRemove">
-          Remove
-        </p>
-      </div>
-    );
   }
+  return (
+    <div className="Comment">
+      <p>
+        <span>
+          {author}
+          &#160;:
+        </span>
+      </p>
+      <p>{textComment}</p>
+      <hr />
+      <p onClick={redact} onKeyPress={redact} className="CommentRedact">
+        Redact
+      </p>
+      <p onClick={removeComment} onKeyPress={removeComment} className="CommentRemove">
+        Remove
+      </p>
+    </div>
+  );
+};
+
+Comment.propTypes = {
+  redactComment: PropTypes.bool.isRequired,
+  saveComment: PropTypes.func.isRequired,
+  setRef: PropTypes.func.isRequired,
+  author: PropTypes.string.isRequired,
+  textComment: PropTypes.string.isRequired,
+  redact: PropTypes.func.isRequired,
+  removeComment: PropTypes.func.isRequired,
 };
 
 export default Comment;

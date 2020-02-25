@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PopupName from './PopupName';
 import { saveName } from '../../store/actions/actions';
 
 class PopupNameContainer extends Component {
-  setRef = element => {
+  setRef = (element) => {
     this.input = element;
   };
 
-  saveName = e => {
+  saveName = () => {
     const { saveName } = this.props;
     saveName(this.input.value);
-
-    localStorage.setItem("name", this.input.value);
   };
 
   render() {
@@ -21,16 +20,12 @@ class PopupNameContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  name: state.name
-});
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  saveName,
+}, dispatch);
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      saveName
-    },
-    dispatch
-  );
+PopupNameContainer.propTypes = {
+  saveName: PropTypes.func.isRequired,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PopupNameContainer);
+export default connect(null, mapDispatchToProps)(PopupNameContainer);

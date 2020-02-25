@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
-import Comment from './Comment';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { removeComment } from '../../store/actions/actions';
-import { saveComment } from '../../store/actions/actions';
+import Comment from './Comment';
+import { removeComment, saveComment } from '../../store/actions/actions';
 
 class CommentContainer extends Component {
-  state = {
-    redactComment: false,
-    commentText: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = { redactComment: false };
+  }
 
   redact = () => {
-    if (this.props.name !== this.props.author) return;
+    const { name, author } = this.props;
+    if (name !== author) return;
     this.setState({
       redactComment: true,
-      commentText: this.props.textComment,
     });
   };
 
-  setRef = element => {
+  setRef = (element) => {
     this.inputText = element;
   };
 
@@ -35,29 +35,42 @@ class CommentContainer extends Component {
   };
 
   removeComment = () => {
-    if (this.props.name !== this.props.author) return;
+    const { name, author } = this.props;
+    if (name !== author) return;
     const { removeComment, id } = this.props;
 
     removeComment(id);
   };
+
   render() {
+    const { author, textComment } = this.props;
+    const { redactComment } = this.state;
     return (
       <Comment
-        {...this.props}
         removeComment={this.removeComment}
-        redactComment={this.state.redactComment}
+        redactComment={redactComment}
         redact={this.redact}
-        commentText={this.state.commentText}
         saveComment={this.saveComment}
         setRef={this.setRef}
+        author={author}
+        textComment={textComment}
       />
     );
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   removeComment,
   saveComment,
 }, dispatch);
+
+CommentContainer.propTypes = {
+  removeComment: PropTypes.func.isRequired,
+  saveComment: PropTypes.func.isRequired,
+  textComment: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(CommentContainer);

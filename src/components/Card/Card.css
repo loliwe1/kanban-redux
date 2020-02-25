@@ -6,6 +6,7 @@
   margin-top: 5px;
   cursor: pointer;
   transition: 0.2s all ease-in-out;
+  outline: none;
 }
 
 /* .Card:hover input {

@@ -1,43 +1,65 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Column.css';
 import NewCardFormContainer from '../NewCardForm/NewCardFormContainer';
-import Card from '../Card/Card';
+import CardContainer from '../Card/CardContainer';
 
-const Column = (props) => (
+const Column = ({
+  setRef,
+  changeTitleColumn,
+  title,
+  cards,
+  openForm,
+  isOpen,
+  closeForm,
+  columnId,
+  comments,
+}) => (
   <div className="Column">
     <div
-      ref={props.setRef}
-      onBlur={props.changeTitleColumn}
+      ref={setRef}
+      onBlur={changeTitleColumn}
       className="ColumnTitle"
-      contentEditable={true}
-      suppressContentEditableWarning={true}
+      contentEditable
+      suppressContentEditableWarning
     >
-      {props.title}
+      {title}
     </div>
-    {props.cards &&
-      props.cards.map(card => {
-        const commentsLength = props.comments.filter(
-          comment => comment.cardId === card.id
-        ).length;
-        return (
-          <Card
-            title={card.title}
-            key={card.id}
-            id={card.id}
-            openPopupCard={() => props.openPopupCard(card.id)}
-            commentsLength={commentsLength}
-          />
-        );
-      })}
-    <p onClick={props.openForm}>&#10010; Добавить карточку</p>
-    {props.isOpen && (
+    {cards
+    && cards.map((card) => {
+      const commentsLength = comments.filter(
+        (comment) => comment.cardId === card.id,
+      ).length;
+      return (
+        <CardContainer
+          title={card.title}
+          key={card.id}
+          id={card.id}
+          commentsLength={commentsLength}
+        />
+      );
+    })}
+    <p onClick={openForm}>&#10010; Добавить карточку</p>
+    {isOpen && (
       <NewCardFormContainer
-        closeForm={props.closeForm}
-        createNewCard={props.createNewCard}
-        columnId={props.columnId}
+        closeForm={closeForm}
+        columnId={columnId}
       />
     )}
   </div>
 );
+
+Column.propTypes = {
+  setRef: PropTypes.func.isRequired,
+  changeTitleColumn: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  cards: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+  openForm: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  closeForm: PropTypes.func.isRequired,
+  columnId: PropTypes.number.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+};
+
 
 export default Column;

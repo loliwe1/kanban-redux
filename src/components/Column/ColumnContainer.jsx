@@ -1,20 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import Column from "./Column";
-import { changeTitleColumn } from "../../store/actions/actions";
-import { openPopupCard } from "../../store/actions/actions";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Column from './Column';
+import { changeTitleColumn } from '../../store/actions/actions';
 
 class ColumnContainer extends React.Component {
-  state = {
-    isOpen: false
-  };
-
-  openPopupCard = id => {
-    const { openPopupCard } = this.props;
-
-    openPopupCard(id);
-  };
+  constructor(props) {
+    super(props);
+    this.state = { isOpen: false };
+  }
 
   changeTitleColumn = () => {
     const { changeTitleColumn, id } = this.props;
@@ -23,7 +18,7 @@ class ColumnContainer extends React.Component {
     changeTitleColumn(value, id);
   };
 
-  setRef = element => {
+  setRef = (element) => {
     this.textInput = element;
   };
 
@@ -36,34 +31,44 @@ class ColumnContainer extends React.Component {
   };
 
   render() {
+    const {
+      id,
+      comments,
+      cards,
+      title,
+    } = this.props;
+    const { isOpen } = this.state;
     return (
       <Column
-        openPopupCard={this.openPopupCard}
-        comments={this.props.comments}
-        cards={this.props.cards}
+        comments={comments}
+        cards={cards.filter((card) => card.columnId === id)}
         renderCards={this.renderCards}
-        columnId={this.props.id}
-        isOpen={this.state.isOpen}
+        columnId={id}
+        isOpen={isOpen}
         openForm={this.openForm}
         closeForm={this.closeForm}
         setRef={this.setRef}
         changeTitleColumn={this.changeTitleColumn}
-        title={this.props.title}
+        title={title}
       />
     );
   }
 }
-const mapStateToProps = state => ({
-  comments: state.comments
+const mapStateToProps = (state) => ({
+  comments: state.comments,
+  cards: state.cards,
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      changeTitleColumn,
-      openPopupCard
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  changeTitleColumn,
+}, dispatch);
+
+ColumnContainer.propTypes = {
+  changeTitleColumn: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+  cards: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ColumnContainer);
